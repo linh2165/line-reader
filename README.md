@@ -22,7 +22,7 @@ If the callback returns `false`, reading will stop and the file will be closed.
 ```javascript
 var lineReader = require('line-reader');
 
-lineReader.eachLine('file.txt', function(line, last) {
+lineReader.eachLine('file.txt', function(line, offset, last) {
   console.log(line);
 
   if (/* done */) {
@@ -37,7 +37,7 @@ callback parameter like so:
 ```javascript
 var lineReader = require('line-reader');
 
-lineReader.eachLine('file.txt', function(line, last, cb) {
+lineReader.eachLine('file.txt', function(line, offset, last, cb) {
   console.log(line);
 
   if (/* done */) {
@@ -99,7 +99,7 @@ You may provide additional options in a hash before the callbacks to `eachLine` 
 For example:
 
 ```javascript
-lineReader.eachLine('file.txt', {separator: ';', encoding: 'utf8'}, function(line, last, cb) {
+lineReader.eachLine('file.txt', {separator: ';', encoding: 'utf8'}, function(line, offset, last, cb) {
   console.log(line);
 });
 lineReader.open('file.txt', {bufferSize: 1024}, function(err, reader) {
