@@ -32,7 +32,7 @@ describe("lineReader", function() {
     it("should read lines using the default separator", function(done) {
       var i = 0;
 
-      lineReader.eachLine(testFilePath, function(line, last) {
+      lineReader.eachLine(testFilePath, function(line, offset, last) {
         assert.equal(testFile[i], line, 'Each line should be what we expect');
         i += 1;
 
@@ -51,7 +51,7 @@ describe("lineReader", function() {
     it("should read windows files by default", function(done) {
       var i = 0;
 
-      lineReader.eachLine(windowsFilePath, function(line, last) {
+      lineReader.eachLine(windowsFilePath, function (line, offset, last) {
         assert.equal(testFile[i], line, 'Each line should be what we expect');
         i += 1;
 
@@ -71,7 +71,7 @@ describe("lineReader", function() {
       var i = 0;
       var bufferSize = 5;
 
-      lineReader.eachLine(windowsBufferOverlapFilePath, {bufferSize: bufferSize}, function(line, last) {
+      lineReader.eachLine(windowsBufferOverlapFilePath, { bufferSize: bufferSize }, function (line, offset, last) {
         assert.equal(testBufferOverlapFile[i], line, 'Each line should be what we expect');
         i += 1;
 
@@ -90,7 +90,7 @@ describe("lineReader", function() {
     it("should read unix files by default", function(done) {
       var i = 0;
 
-      lineReader.eachLine(unixFilePath, function(line, last) {
+      lineReader.eachLine(unixFilePath, function (line, offset, last) {
         assert.equal(testFile[i], line, 'Each line should be what we expect');
         i += 1;
 
@@ -109,7 +109,7 @@ describe("lineReader", function() {
     it("should read mac os 9 files by default", function(done) {
       var i = 0;
 
-      lineReader.eachLine(macOs9FilePath, function(line, last) {
+      lineReader.eachLine(macOs9FilePath, function (line, offset, last) {
         assert.equal(testFile[i], line, 'Each line should be what we expect');
         i += 1;
 
@@ -128,7 +128,7 @@ describe("lineReader", function() {
     it("should allow continuation of line reading via a callback", function(done) {
       var i = 0;
 
-      lineReader.eachLine(testFilePath, function(line, last, cb) {
+      lineReader.eachLine(testFilePath, function (line, offset, last, cb) {
         assert.equal(testFile[i], line, 'Each line should be what we expect');
         i += 1;
 
@@ -148,7 +148,7 @@ describe("lineReader", function() {
 
     it("should separate files using given separator", function(done) {
       var i = 0;
-      lineReader.eachLine(separatorFilePath, {separator: ';'}, function(line, last) {
+      lineReader.eachLine(separatorFilePath, { separator: ';' }, function (line, offset, last) {
         assert.equal(testSeparatorFile[i], line);
         i += 1;
       
@@ -184,7 +184,7 @@ describe("lineReader", function() {
 
     it("should allow early termination of line reading", function(done) {
       var i = 0;
-      lineReader.eachLine(testFilePath, function(line, last) {
+      lineReader.eachLine(testFilePath, function (line, offset, last) {
         assert.equal(testFile[i], line, 'Each line should be what we expect');
         i += 1;
 
@@ -200,7 +200,7 @@ describe("lineReader", function() {
 
     it("should allow early termination of line reading via a callback", function(done) {
       var i = 0;
-      lineReader.eachLine(testFilePath, function(line, last, cb) {
+      lineReader.eachLine(testFilePath, function (line, offset, last, cb) {
         assert.equal(testFile[i], line, 'Each line should be what we expect');
         i += 1;
 
@@ -240,7 +240,7 @@ describe("lineReader", function() {
     });
 
     it("should work with a file containing only one line", function(done) {
-      lineReader.eachLine(oneLineFilePath, function(line, last) {
+      lineReader.eachLine(oneLineFilePath, function (line, offset, last) {
         return true;
       }, function(err) {
         assert.ok(!err);
@@ -250,7 +250,7 @@ describe("lineReader", function() {
 
     it("should work with a file containing only one line and no endline character.", function(done) {
       var count = 0; var isDone = false;
-      lineReader.eachLine(oneLineFileNoEndlinePath, function(line, last) {
+      lineReader.eachLine(oneLineFileNoEndlinePath, function (line, offset, last) {
         assert.equal(last, true, 'last should be true');
         return true;
       }, function(err) {
@@ -261,7 +261,7 @@ describe("lineReader", function() {
 
     it("should close the file when eachLine finishes", function(done) {
       var reader;
-      lineReader.eachLine(oneLineFilePath, function(line, last) {
+      lineReader.eachLine(oneLineFilePath, function (line, offset, last) {
         return false;
       }, function(err) {
         assert.ok(!err);
@@ -273,7 +273,7 @@ describe("lineReader", function() {
     });
 
     it("should close the file if there is an error during eachLine", function(done) {
-      lineReader.eachLine(testFilePath, {bufferSize: 10}, function(line, last) {
+      lineReader.eachLine(testFilePath, { bufferSize: 10 }, function (line, offset, last) {
       }, function(err) {
         assert.equal('a test error', err.message);
         assert.ok(reader.isClosed());
